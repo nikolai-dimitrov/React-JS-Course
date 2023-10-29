@@ -10,7 +10,8 @@ function App() {
   return (
     <div>
       <h1>Dynamic react app demo.</h1>
-      <Counter />
+      <Counter incrementNum={1} />
+      <Counter incrementNum={5} />
       <Timer startTime={5} />
       {/* <Timer startTime={10} /> */}
       {/* <Timer startTime={20} /> */}
