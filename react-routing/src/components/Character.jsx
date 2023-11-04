@@ -19,7 +19,7 @@ export const Character = () => {
 
     const backBtnHandler = () => {
         navigate(-1); // One page before.
-        navigate("/characters"); // To specific route.
+        // navigate("/characters"); // To specific route.
     };
     return (
         <>
