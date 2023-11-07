@@ -26,6 +26,7 @@ export const Character = () => {
             <h1>Character details page.</h1>
             <h1>{character.name}</h1>
             <button onClick={backBtnHandler}>Back</button>
+
             <nav className={styles.navigation}>
                 <ul>
                     <li>
@@ -39,6 +40,7 @@ export const Character = () => {
                     </li>
                 </ul>
             </nav>
+
             <Routes>
                 <Route path="/films" element={<CharacterFilms />} />
                 <Route path="/vehicles" element={<h4>Vehicles h4</h4>} />

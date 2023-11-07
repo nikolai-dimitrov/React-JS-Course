@@ -5,7 +5,6 @@ import { About } from "./components/About";
 import { Navigation } from "./components/Navigation";
 import { CharacterList } from "./components/CharacterList";
 import { Character } from "./components/Character";
-// import { Character } from "./components/CharacterListItem ";
 function App() {
     const [count, setCount] = useState(0);
 
@@ -29,6 +28,7 @@ function App() {
                     <Route path="*" element={<h1>404</h1>} />
                 </Routes>
             </header>
+            <h3>TEST INTO APP BELOW NAV</h3>
         </div>
     );
 }
