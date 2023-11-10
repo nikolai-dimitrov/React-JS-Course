@@ -1,0 +1,40 @@
+.todo__item {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid gray;
+}
+
+.todo__title {
+    color: gray;
+    margin-right: 50px;
+}
+
+.todo__btn-container button:first-child {
+    margin-right: 10px;
+    background: greenyellow;
+    border: none;
+    padding: 5px 16px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+
+.todo__btn-container button:last-child {
+    background-color: rgb(199, 75, 75);
+    border: none;
+    padding: 4px 5px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
+.complete {
+    background: greenyellow;
+}
+.not-complete {
+    background: red !important;
+}
+.crossed {
+    text-decoration: line-through;
+}

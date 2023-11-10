@@ -28,7 +28,7 @@ function App() {
         //Redirect to games catalog.
         navigate("/catalog");
     };
-    console.log('RENDERING APP')
+    console.log("RENDERING APP");
     return (
         <div id="box">
             <Header />

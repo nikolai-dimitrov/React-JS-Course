@@ -1,0 +1,15 @@
+.todo__modal-background {
+    height: 100vh;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    background: rgb(11 11 11 / 53%);
+}
+.todo__form {
+    margin: 45px auto;
+    width: 38%;
+    height: 50px;
+    background: white;
+    padding: 29px;
+}

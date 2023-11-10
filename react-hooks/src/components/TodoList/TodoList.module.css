@@ -1,0 +1,19 @@
+.todo_list {
+    padding: 0px;
+}
+
+.todo__container {
+    width: 35%;
+    margin: 0 auto;
+    border: 1px solid gray;
+    padding: 10px 15px;
+}
+
+.todo__btn-add {
+    background: skyblue;
+    border: none;
+    padding: 5px 16px;
+    border-radius: 4px;
+    color: white;
+    cursor: pointer;
+}
