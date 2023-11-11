@@ -1,14 +1,23 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import * as gameService from "../../services/gameService";
+import { useState, useEffect, useContext } from "react";
+import { useParams, Link } from "react-router-dom";
+import { gameServiceFactory } from "../../services/gameServiceFactory";
+import { AuthContext } from "../../contexts/AuthContext";
+import { GameContext } from "../../contexts/GameContext";
+
 export const GameDetails = () => {
+    const { token, userId } = useContext(AuthContext);
+    const { gameDeleteHandler } = useContext(GameContext);
+
     const [game, setGame] = useState({});
     const { gameId } = useParams();
 
+    const gameService = gameServiceFactory(token);
+
     useEffect(() => {
         gameService.getOne(gameId).then((result) => setGame(result));
-        console.log(gameId, "This is game id");
     }, [gameId]);
+
+    const isOwner = game._ownerId === userId;
 
     return (
         <section id="game-details">
@@ -37,14 +46,20 @@ export const GameDetails = () => {
                     <p className="no-comment">No comments.</p>
                 </div>
                 {/* Edit/Delete buttons ( Only for creator of this game )  */}
-                <div className="buttons">
-                    <a href="#" className="button">
-                        Edit
-                    </a>
-                    <a href="#" className="button">
-                        Delete
-                    </a>
-                </div>
+                {isOwner && (
+                    <div className="buttons">
+                        <Link to={`/game/edit/${gameId}`} className="button">
+                            Edit
+                        </Link>
+                        <a
+                            href="#"
+                            className="button"
+                            onClick={(e) => gameDeleteHandler(e, gameId)}
+                        >
+                            Delete
+                        </a>
+                    </div>
+                )}
             </div>
             {/* Bonus */}
             {/* Add Comment ( Only for logged-in users, which is not creators of the current game ) */}
