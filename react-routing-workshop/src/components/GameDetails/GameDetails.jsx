@@ -1,24 +1,48 @@
 import { useState, useEffect, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
 import { gameServiceFactory } from "../../services/gameServiceFactory";
+import * as commentService from "../../services/commentService";
 import { AuthContext } from "../../contexts/AuthContext";
 import { GameContext } from "../../contexts/GameContext";
+import { AddComment } from "./AddComment/AddComment";
 
 export const GameDetails = () => {
-    const { token, userId } = useContext(AuthContext);
+    const { token, userId, isAuthenticated, email } = useContext(AuthContext);
     const { gameDeleteHandler } = useContext(GameContext);
-
     const [game, setGame] = useState({});
+
     const { gameId } = useParams();
 
     const gameService = gameServiceFactory(token);
 
     useEffect(() => {
-        gameService.getOne(gameId).then((result) => setGame(result));
+        Promise.all([
+            gameService.getOne(gameId),
+            commentService.getAll(gameId),
+        ]).then(([gameData, comments]) => {
+            setGame({
+                ...gameData,
+                comments,
+            });
+        });
     }, [gameId]);
-
     const isOwner = game._ownerId === userId;
 
+    const onCommentSubmit = async (value) => {
+        const result = await commentService.create(gameId, value);
+        setGame((state) => ({
+            ...state,
+            comments: [
+                ...state.comments,
+                {
+                    ...result,
+                    author: {
+                        email,
+                    },
+                },
+            ],
+        }));
+    };
     return (
         <section id="game-details">
             <h1>Game Details</h1>
@@ -30,20 +54,21 @@ export const GameDetails = () => {
                     <p className="type">{game.category}</p>
                 </div>
                 <p className="text">{game.summary}</p>
-                {/* Bonus ( for Guests and Users ) */}
+                {/* Comments */}
                 <div className="details-comments">
                     <h2>Comments:</h2>
                     <ul>
-                        {/* list all comments for current game (If any) */}
-                        <li className="comment">
-                            <p>Content: I rate this one quite highly.</p>
-                        </li>
-                        <li className="comment">
-                            <p>Content: The best game.</p>
-                        </li>
+                        {game.comments?.map((c) => (
+                            <li className="comment" key={c._id}>
+                                <p>
+                                    {c?.author.email}: {c.comment}
+                                </p>
+                            </li>
+                        ))}
                     </ul>
-                    {/* Display paragraph: If there are no games in the database */}
-                    <p className="no-comment">No comments.</p>
+                    {!game.comments?.length && (
+                        <p className="no-comment">No comments.</p>
+                    )}
                 </div>
                 {/* Edit/Delete buttons ( Only for creator of this game )  */}
                 {isOwner && (
@@ -63,21 +88,9 @@ export const GameDetails = () => {
             </div>
             {/* Bonus */}
             {/* Add Comment ( Only for logged-in users, which is not creators of the current game ) */}
-            <article className="create-comment">
-                <label>Add new comment:</label>
-                <form className="form">
-                    <textarea
-                        name="comment"
-                        placeholder="Comment......"
-                        defaultValue={""}
-                    />
-                    <input
-                        className="btn submit"
-                        type="submit"
-                        defaultValue="Add Comment"
-                    />
-                </form>
-            </article>
+            {isAuthenticated && (
+                <AddComment onCommentSubmit={onCommentSubmit} />
+            )}
         </section>
     );
 };

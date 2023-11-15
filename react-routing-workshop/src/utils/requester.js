@@ -18,9 +18,7 @@ const request = async (method, token, url, data) => {
     if (response.status === 204) {
         return {};
     }
-
     const result = response.json();
-
     if (!response.ok) {
         throw result;
     }
@@ -28,6 +26,13 @@ const request = async (method, token, url, data) => {
     return result;
 };
 export const requestFactory = (token) => {
+    if (!token) {
+        const serializedAuth = localStorage.getItem("user");
+        if (serializedAuth) {
+            const auth = JSON.parse(serializedAuth);
+            token = auth.accessToken;
+        }
+    }
     return {
         get: request.bind(null, "GET", token),
         post: request.bind(null, "POST", token),

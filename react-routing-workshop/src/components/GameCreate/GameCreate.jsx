@@ -1,5 +1,7 @@
-import { useState } from "react";
-export const GameCreate = ({ gameCreateHandler }) => {
+import { useState, useContext } from "react";
+import { GameContext } from "../../contexts/GameContext";
+export const GameCreate = () => {
+    const { gameCreateHandler } = useContext(GameContext);
     const [formValues, setFormValues] = useState({
         title: "",
         category: "",
@@ -19,7 +21,6 @@ export const GameCreate = ({ gameCreateHandler }) => {
         e.preventDefault();
         gameCreateHandler(formValues);
     };
-    console.log('rendering CREATE')
     return (
         <section id="create-page" className="auth">
             <form id="create" onSubmit={formOnSubmitHandler}>

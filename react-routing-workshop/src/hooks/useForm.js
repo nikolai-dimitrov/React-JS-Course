@@ -12,8 +12,9 @@ export const useForm = (initialValues, submitHandler) => {
     const onSubmit = (e, id) => {
         e.preventDefault();
         id ? submitHandler(formValues, id) : submitHandler(formValues);
+        setFormValues(initialValues);
     };
-    
+
     const changeInitialValues = (values) => {
         setFormValues(values);
     };
